@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>San Carlo</title>
+    <link rel="icon" href="assets/logo.webp" type="image/x-icon">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body class="Body">
+    <header>
+        <div class="logo">
+            <img src="assets/logo.webp" alt="Logo San Carlo">
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html">Produtos</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+        </nav>
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar produtos...">
+            <button type="submit">Buscar</button>
+        </div>
+        <div class="cart-icon" onclick="toggleCart()">
+            <img src="assets/shopping-cart.png" alt="">
+            <i class="fa fa-shopping-cart"></i>
+            <span id="cart-count">0</span>
+        </div>
+    </header>
+    <main>
+        <section class="products" id="produtos">
+            </section>
+        <section id="contato">
+            <p>Entre em contato conosco para fazer sua reserva ou tirar suas dúvidas:</p>
+            <a href="https://api.whatsapp.com/send/?phone=5548988061743&text&type=phone_number&app_absent=0"><img src="assets/zapzap2.png" alt="Whatsapp Logo" class="whatsapp-logo">(48) 98806-1743</a>
+            <p></p>
+            <a class="a" href="https://www.instagram.com/sancarlopizzeria/" target="_blank"><img src="assets/instagram-logo.png" alt="Instagram Logo" class="instagram-logo">sancarlopizzeria</a>
+            <p>Endereço: Av. Santos Dumont, 2112 - São Luís, Criciúma - SC, 88803-200</p>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3499.906948270132!2d-49.374021400000004!3d-28.692429999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x952183451c5c7ef3%3A0xc25fc71a44f6818e!2sSan%20Carlo%20Pizzeria%20Napoletana!5e0!3m2!1spt-BR!2sbr!4v1744053188261!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 San Carlo. Todos os direitos reservados.</p>
+    </footer>
+    <script src="js/script.js"></script>
+</body>
+</html>
