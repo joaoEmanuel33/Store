@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Perfil do Usuário | San Carlo</title>
+    <link rel="icon" href="assets/logo.webp" type="image/x-icon" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <script src="js/bootstrap.min.js"></script>
+    <style>
+        .profile-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ccc;
+            margin-bottom: 10px;
+        }
+        .profile-container {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+        .profile-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 6px 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #profilePhotoInput {
+            margin-bottom: 20px;
+        }
+        button {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html"><img src="assets/logo.webp" alt="Logo San Carlo" /></a>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html">Produtos</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+        </nav>
+        <div class="user-menu" style="position: relative;">
+            <img id="headerProfilePhoto" src="assets/default-profile.png" alt="Foto de Perfil" class="profile-photo" style="vertical-align: middle; margin-right: 8px; display: none;" />
+            <button id="user-button" onclick="toggleUserDropdown()">Usuário</button>
+            <div id="user-dropdown" class="user-dropdown-content" style="display:none; position: absolute; right: 0; background: white; border: 1px solid #ccc; border-radius: 4px; min-width: 150px; z-index: 1001;">
+                <a href="profile.html" style="display: block; padding: 8px 12px; text-decoration: none; color: black;">Editar Conta</a>
+                <a href="#" onclick="logout()" style="display: block; padding: 8px 12px; text-decoration: none; color: black;">Deslogar</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="profile-container">
+            <h2>Perfil do Usuário</h2>
+            <img id="profilePhotoPreview" src="assets/default-profile.png" alt="Foto de Perfil" class="profile-photo" />
+            <input type="file" id="profilePhotoInput" accept="image/*" />
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="profileName">Nome:</label>
+                    <input type="text" id="profileName" name="profileName" required />
+                </div>
+                <div class="form-group">
+                    <label for="profileCep">CEP:</label>
+                    <input type="text" id="profileCep" name="profileCep" required />
+                </div>
+                <div class="form-group">
+                    <label for="profileAddress">Endereço:</label>
+                    <input type="text" id="profileAddress" name="profileAddress" required />
+                </div>
+                <div class="form-group">
+                    <label for="profileComplement">Complemento (opcional):</label>
+                    <input type="text" id="profileComplement" name="profileComplement" />
+                </div>
+                <div class="form-group">
+                    <label for="profileEmail">Email:</label>
+                    <input type="email" id="profileEmail" name="profileEmail" disabled />
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            </form>
+            <div id="profileSuccess" class="success-message" style="margin-top: 10px;"></div>
+        </div>
+    </main>
+    <script src="js/script.js"></script>
+</body>
+</html>

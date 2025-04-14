@@ -260,12 +260,23 @@ const signupSuccess = document.getElementById('signupSuccess');
 const signupError = document.getElementById('signupError');
 
 // Função para salvar dados do usuário no localStorage
-function saveUser(name, cep, address, complement, email, password) {
+function saveUser(name, cep, address, complement, email, password, profilePhoto) {
     const users = JSON.parse(localStorage.getItem('users')) || [];
-    const newUser = { name, cep, address, complement, email, password };
+    const newUser = { name, cep, address, complement, email, password, profilePhoto };
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
     console.log('Usuário cadastrado:', newUser); // Para depuração
+}
+
+// Função para atualizar dados do usuário no localStorage
+function updateUser(email, updatedData) {
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const userIndex = users.findIndex(user => user.email === email);
+    if (userIndex !== -1) {
+        users[userIndex] = { ...users[userIndex], ...updatedData };
+        localStorage.setItem('users', JSON.stringify(users));
+        console.log('Usuário atualizado:', users[userIndex]);
+    }
 }
 
 // Função para verificar se um usuário existe no localStorage pelo email
@@ -286,6 +297,7 @@ if (signupSubmit) { // Verifica se o elemento existe na página
         const complement = signupForm.signupComplement.value;
         const email = signupForm.signupEmail.value;
         const password = signupForm.signupPassword.value;
+        const profilePhoto = null; // No photo on signup
 
         if (!name || !cep || !address || !email || !password) {
             signupError.textContent = 'Por favor, preencha todos os campos obrigatórios.';
@@ -297,7 +309,7 @@ if (signupSubmit) { // Verifica se o elemento existe na página
             return;
         }
 
-        saveUser(name, cep, address, complement, email, password);
+        saveUser(name, cep, address, complement, email, password, profilePhoto);
         signupForm.reset();
         signupError.textContent = '';
         signupSuccess.textContent = 'Cadastro realizado com sucesso! Você pode fazer login.';
@@ -334,6 +346,21 @@ if (localStorage.getItem('loggedInUserEmail') && !window.location.pathname.inclu
     // Se estiver logado e não estiver na página de login ou cadastro,
     // você pode fazer algo aqui, como exibir informações do usuário.
     console.log('Usuário logado:', localStorage.getItem('loggedInUserEmail'));
+    // Atualiza o botão do usuário com o nome do usuário e foto
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const loggedInEmail = localStorage.getItem('loggedInUserEmail');
+    const loggedInUser = users.find(user => user.email === loggedInEmail);
+    const userButton = document.getElementById('user-button');
+    const headerProfilePhoto = document.getElementById('headerProfilePhoto');
+    if (loggedInUser && userButton) {
+        userButton.textContent = loggedInUser.name;
+        if (loggedInUser.profilePhoto) {
+            headerProfilePhoto.src = loggedInUser.profilePhoto;
+            headerProfilePhoto.style.display = 'inline-block';
+        } else {
+            headerProfilePhoto.style.display = 'none';
+        }
+    }
 }
 
 // Pop-up de Login/Cadastro
@@ -355,3 +382,136 @@ window.addEventListener('click', function(event) {
         closeLoginPopup();
     }
 });
+
+// Função para alternar a exibição do dropdown do usuário
+function toggleUserDropdown() {
+    const dropdown = document.getElementById('user-dropdown');
+    if (dropdown) {
+        if (dropdown.style.display === 'block') {
+            dropdown.style.display = 'none';
+        } else {
+            dropdown.style.display = 'block';
+        }
+    }
+}
+
+// Função para deslogar o usuário
+function logout() {
+    localStorage.removeItem('loggedInUserEmail');
+    window.location.href = 'login.html';
+}
+
+// Função para editar a conta do usuário
+function editAccount() {
+    window.location.href = 'profile.html';
+}
+
+// Funções para o perfil do usuário (profile.html)
+const profileForm = document.getElementById('profileForm');
+const profilePhotoInput = document.getElementById('profilePhotoInput');
+const profilePhotoPreview = document.getElementById('profilePhotoPreview');
+const profileSuccess = document.getElementById('profileSuccess');
+
+function loadUserProfile() {
+    const loggedInEmail = localStorage.getItem('loggedInUserEmail');
+    if (!loggedInEmail) return;
+
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const user = users.find(u => u.email === loggedInEmail);
+    if (!user) return;
+
+    if (profileForm) {
+        profileForm.profileName.value = user.name || '';
+        profileForm.profileCep.value = user.cep || '';
+        profileForm.profileAddress.value = user.address || '';
+        profileForm.profileComplement.value = user.complement || '';
+        profileForm.profileEmail.value = user.email || '';
+    }
+    if (profilePhotoPreview) {
+        if (user.profilePhoto) {
+            profilePhotoPreview.src = user.profilePhoto;
+        } else {
+            profilePhotoPreview.src = 'assets/default-profile.png';
+        }
+    }
+}
+
+function handleProfilePhotoChange(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        if (profilePhotoPreview) {
+            profilePhotoPreview.src = e.target.result;
+        }
+    };
+    reader.readAsDataURL(file);
+}
+
+function saveUserProfile(event) {
+    event.preventDefault();
+    const loggedInEmail = localStorage.getItem('loggedInUserEmail');
+    if (!loggedInEmail) return;
+
+    const updatedData = {
+        name: profileForm.profileName.value,
+        cep: profileForm.profileCep.value,
+        address: profileForm.profileAddress.value,
+        complement: profileForm.profileComplement.value,
+    };
+
+    if (profilePhotoPreview && profilePhotoPreview.src && !profilePhotoPreview.src.includes('default-profile.png')) {
+        updatedData.profilePhoto = profilePhotoPreview.src;
+    }
+
+    updateUser(loggedInEmail, updatedData);
+    profileSuccess.textContent = 'Perfil atualizado com sucesso!';
+    showToast('Perfil atualizado com sucesso!');
+
+    // Update header photo and name if on index or other pages
+    const userButton = document.getElementById('user-button');
+    const headerProfilePhoto = document.getElementById('headerProfilePhoto');
+    if (userButton) {
+        userButton.textContent = updatedData.name;
+    }
+    if (headerProfilePhoto && updatedData.profilePhoto) {
+        headerProfilePhoto.src = updatedData.profilePhoto;
+        headerProfilePhoto.style.display = 'inline-block';
+    }
+}
+
+if (profilePhotoInput) {
+    profilePhotoInput.addEventListener('change', handleProfilePhotoChange);
+}
+
+if (profileForm) {
+    profileForm.addEventListener('submit', saveUserProfile);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadUserProfile();
+});
+
+// Função para alternar a exibição do dropdown do usuário
+function toggleUserDropdown() {
+    const dropdown = document.getElementById('user-dropdown');
+    if (dropdown) {
+        if (dropdown.style.display === 'block') {
+            dropdown.style.display = 'none';
+        } else {
+            dropdown.style.display = 'block';
+        }
+    }
+}
+
+// Função para deslogar o usuário
+function logout() {
+    localStorage.removeItem('loggedInUserEmail');
+    window.location.href = 'login.html';
+}
+
+// Função para editar a conta do usuário
+function editAccount() {
+    window.location.href = 'cadastro.html';
+}

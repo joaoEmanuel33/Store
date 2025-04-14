@@ -5,66 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>San Carlo</title>
     <link rel="icon" href="assets/logo.webp" type="image/x-icon" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
     <script src="js/bootstrap.min.js"></script>
 </head>
 <body class="Body">
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand d-flex align-items-center" href="index.html">
-                    <img src="assets/logo.webp" alt="Logo San Carlo" width="40" height="40" class="d-inline-block align-text-top" />
-                    <span class="ms-2">San Carlo</span>
-                </a>
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="index.html">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.html">Produtos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="sobre.html">Sobre</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="contato.html">Contato</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex me-3" role="search" onsubmit="return false;">
-                        <input
-                            class="form-control me-2"
-                            type="search"
-                            placeholder="Buscar produtos..."
-                            aria-label="Search"
-                        />
-                        <button class="btn btn-outline-success" type="submit">Buscar</button>
-                    </form>
-                    <div class="d-flex align-items-center">
-                        <div class="cart-icon position-relative" onclick="toggleCart()" style="cursor:pointer;">
-                            <img src="assets/shopping-cart.png" alt="Carrinho" width="30" height="30" />
-                            <span
-                                id="cart-count"
-                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                                >0</span
-                            >
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="logo">
+            <img src="assets/logo.webp" alt="Logo San Carlo" />
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html">Produtos</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
         </nav>
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar produtos..." />
+            <button type="submit">Buscar</button>
+        </div>
+        <div class="cart-icon" onclick="toggleCart()">
+            <img src="assets/shopping-cart.png" alt="" />
+            <i class="fa fa-shopping-cart"></i>
+            <span id="cart-count">0</span>
+        </div>
+        <div class="user-menu" style="position: relative; display: flex; align-items: center;">
+            <img id="headerProfilePhoto" src="assets/default-profile.png" alt="Foto de Perfil" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; margin-right: 8px; display: none;" />
+            <button id="user-button" onclick="toggleUserDropdown()">Usuário</button>
+            <div id="user-dropdown" class="user-dropdown-content" style="display:none; position: absolute; right: 0; background: white; border: 1px solid #ccc; border-radius: 4px; min-width: 150px; z-index: 1001;">
+                <a href="profile.html" style="display: block; padding: 8px 12px; text-decoration: none; color: black;">Editar Conta</a>
+                <a href="#" onclick="logout()" style="display: block; padding: 8px 12px; text-decoration: none; color: black;">Deslogar</a>
+            </div>
+        </div>
     </header>
     <main>
         <section class="products" id="produtos">
@@ -156,9 +130,7 @@
                 <img src="assets/marinara.jpg" alt="" />
                 <h3>Marinara</h3>
                 <p class="price">R$ 34,00</p>
-                <p class="description">
-                    Molho, laminas de alho fresco, orégano fresco e azeite de oliva
-                </p>
+                <p class="description">Molho, laminas de alho fresco, orégano fresco e azeite de oliva</p>
                 <button
                     class="btn btn-danger"
                     onclick="openModal(7, 'Marinara', 34.00, 'Molho, laminas de alho fresco, orégano fresco e azeite de oliva', 'assets/marinara.jpg')"
@@ -237,7 +209,9 @@
                 <h2>Resumo do Pedido</h2>
                 <div id="payment-items"></div>
                 <div class="payment-total">
-                    <h3>Total: R$ <span id="payment-total">0,00</span></h3>
+                    <h3>
+                        Total: R$ <span id="payment-total">0,00</span>
+                    </h3>
                 </div>
                 <button onclick="proceedToPayment()">Ir para Pagamento</button>
             </div>
@@ -246,7 +220,9 @@
             <h2>Carrinho de Compras</h2>
             <div id="cart-items"></div>
             <div class="cart-total">
-                <h3>Total: R$ <span id="cart-total">0,00</span></h3>
+                <h3>
+                    Total: R$ <span id="cart-total">0,00</span>
+                </h3>
             </div>
             <div class="cart-actions">
                 <button onclick="closeCart()">Fechar</button>
@@ -262,10 +238,8 @@
             </div>
         </div>
     </main>
-    <footer class="bg-light text-center text-lg-start py-3 mt-4">
-        <div class="container">
-            <p class="mb-0">&copy; 2025 San Carlo. Todos os direitos reservados.</p>
-        </div>
+    <footer id="sobre">
+        <p>&copy; 2025 San Carlo. Todos os direitos reservados.</p>
     </footer>
     <script src="js/script.js"></script>
 </body>

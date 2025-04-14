@@ -32,6 +32,13 @@
             <i class="fa fa-shopping-cart"></i>
             <span id="cart-count">0</span>
         </div>
+        <div class="user-menu" style="position: relative; display: flex; align-items: center;">
+            <img id="headerProfilePhoto" src="assets/default-profile.png" alt="Foto de Perfil" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; margin-right: 8px; display: none;" />
+            <button id="user-button" onclick="toggleUserDropdown()">Usuário</button>
+            <div id="user-dropdown" class="user-dropdown-content" style="display:none; position: absolute; right: 0; background: white; border: 1px solid #ccc; border-radius: 4px; min-width: 150px; z-index: 1001;">
+                <a href="profile.html" style="display: block; padding: 8px 12px; text-decoration: none; color: black;">Editar Conta</a>
+                <a href="#" onclick="logout()" style="display: block; padding: 8px 12px; text-decoration: none; color: black;">Deslogar</a>
+            </div>
     </header>
     <main>
         <section class="sobre" id="produtos">
