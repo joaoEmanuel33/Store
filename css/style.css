@@ -408,4 +408,139 @@ header {
     top: 0;
     z-index: 100;
 }
+/*pop-up de login*/
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    display: flex; /* Usamos flexbox para centralizar */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+}
 
+.modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Ajuste a largura conforme necessário */
+    max-width: 500px; /* Defina uma largura máxima se desejar */
+    border-radius: 8px;
+    text-align: center;
+}
+
+.modal-content button {
+    margin: 10px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.modal-content .btn-primary {
+    background-color: #A7333F; /* Cor azul Bootstrap */
+    color: white;
+}
+
+.modal-content .btn-secondary {
+    background-color: #6c757d; /* Cor cinza Bootstrap */
+    color: white;
+}
+/* Estilos para a página de login */
+body.login-page {
+    font-family: Arial, sans-serif; /* Use a mesma fonte do seu site */
+    background-color: #f5f5f5; /* Use a mesma cor de fundo do seu site */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Use a mesma sombra dos seus cards */
+    width: 400px; /* Largura do container de login */
+    text-align: center;
+}
+
+.login-container h1 {
+    color: #A51C30; /* Use a cor primária do seu site */
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="text"] {
+    width: calc(100% - 12px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+button[type="submit"] {
+    background-color: #A7333F; /* Use a cor dos seus botões */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #580C1F; /* Use o hover dos seus botões */
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.success-message {
+    color: green;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.no-account {
+    margin-top: 20px;
+    font-size: 1rem;
+}
+
+.no-account a {
+    color: #3c91e6; /* Cor dos links do seu site */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.no-account a:hover {
+    color: #01172f; /* Hover dos links do seu site */
+}

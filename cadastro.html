@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro | San Carlo</title>
+    <link rel="icon" href="assets/logo.webp" type="image/x-icon">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <h1>Cadastre-se</h1>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="signupName">Nome:</label>
+                <input type="text" id="signupName" name="signupName" required>
+            </div>
+            <div class="form-group">
+                <label for="signupCep">CEP:</label>
+                <input type="text" id="signupCep" name="signupCep" required>
+            </div>
+            <div class="form-group">
+                <label for="signupAddress">Endereço:</label>
+                <input type="text" id="signupAddress" name="signupAddress" required>
+            </div>
+            <div class="form-group">
+                <label for="signupComplement">Complemento (opcional):</label>
+                <input type="text" id="signupComplement" name="signupComplement" placeholder="Ex: Apartamento 101">
+            </div>
+            <div class="form-group">
+                <label for="signupEmail">Email:</label>
+                <input type="email" id="signupEmail" name="signupEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="signupPassword">Senha:</label>
+                <input type="password" id="signupPassword" name="signupPassword" required>
+            </div>
+            <div id="signupSuccess" class="success-message"></div>
+            <div id="signupError" class="error-message"></div>
+            <button type="submit">Cadastrar</button>
+            </form>
+        <div class="already-account">
+            <p><a href="login.html">Já tem conta? Entrar</a></p>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+    <div id="toast" class="toast"></div>
+</body>
+</html>

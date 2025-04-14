@@ -3,9 +3,16 @@ let currentProduct = null;
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 updateCartCount();
 
-// Funções do Modal
+// Funções do Modal de Quantidade
 function openModal(productId, productName, productPrice, productDescription, productImage) {
     console.log('openModal called with:', { productId, productName, productPrice, productDescription, productImage }); // Log para depuração
+
+    // Verifica se o usuário está logado
+    if (!localStorage.getItem('loggedInUserEmail')) {
+        // Exibe o pop-up de login/cadastro
+        document.getElementById('login-popup').style.display = 'block';
+        return; // Impede que o modal de quantidade seja aberto
+    }
 
     // Preencher os detalhes do modal
     document.getElementById('modal-product-name').textContent = productName;
@@ -13,7 +20,7 @@ function openModal(productId, productName, productPrice, productDescription, pro
     document.getElementById('modal-product-price').textContent = productPrice.toFixed(2).replace('.', ',');
     document.getElementById('modal-product-image').src = productImage || 'default-image.jpg'; // Adicionar fallback para imagem
 
-    // Exibir o modal
+    // Exibir o modal de quantidade
     document.getElementById('quantity-modal').style.display = 'block';
 }
 
@@ -65,7 +72,7 @@ function addToCart() {
     // Atualizar o carrinho na interface
     updateCartUI();
 
-    // Fechar o modal
+    // Fechar o modal de quantidade
     closeModal();
 
     // Abrir o carrinho
@@ -74,6 +81,7 @@ function addToCart() {
 
 function updateCartCount() {
     const cartCountElement = document.getElementById('cart-count');
+    if (!cartCountElement) return; // Element not found, skip update
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
     cartCountElement.textContent = totalItems;
 }
@@ -135,7 +143,7 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Fechar o modal quando clicar fora dele
+// Fechar o modal de quantidade quando clicar fora dele
 window.onclick = function(event) {
     const modal = document.getElementById('quantity-modal');
     if (event.target == modal) {
@@ -180,7 +188,7 @@ function updateCartUI() {
 
 function closeCart() {
     const cartPanel = document.getElementById('shopping-cart');
-    cartPanel.style.display = 'none';
+    cartPanel.classList.remove('active'); // Removido display: none
 }
 
 function openPaymentModal() {
@@ -241,43 +249,109 @@ function showToast(message) {
         toast.className = 'toast';
     }, 3000);
 }
-// ... (seu código JavaScript anterior)
 
-function closeCart() {
-    const cartPanel = document.getElementById('shopping-cart');
-    cartPanel.classList.remove('active'); // Removido display: none
+// Seção de Login e Cadastro
+const loginForm = document.getElementById('loginForm');
+const signupForm = document.getElementById('signupForm');
+const loginSubmit = document.getElementById('loginForm');
+const signupSubmit = document.getElementById('signupForm');
+const loginError = document.getElementById('loginError');
+const signupSuccess = document.getElementById('signupSuccess');
+const signupError = document.getElementById('signupError');
+
+// Função para salvar dados do usuário no localStorage
+function saveUser(name, cep, address, complement, email, password) {
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const newUser = { name, cep, address, complement, email, password };
+    users.push(newUser);
+    localStorage.setItem('users', JSON.stringify(users));
+    console.log('Usuário cadastrado:', newUser); // Para depuração
 }
 
-// Fechar o carrinho quando clicar fora dele
-document.addEventListener('click', (e) => {
-    const cartPanel = document.getElementById('shopping-cart');
-    const cartIcon = document.querySelector('.cart-icon');
+// Função para verificar se um usuário existe no localStorage pelo email
+function findUserByEmail(email) {
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    return users.find(user => user.email === email);
+}
 
-    console.log('Clique fora do carrinho:', e.target); // Log para depuração
+// Event listener para o formulário de cadastro
+if (signupSubmit) { // Verifica se o elemento existe na página
+    signupSubmit.addEventListener('submit', (event) => {
+        event.preventDefault(); // Impede o envio padrão do formulário
+        console.log('Signup form submitted');
 
-    if (cartPanel.classList.contains('active') &&
-        !cartPanel.contains(e.target) &&
-        !cartIcon.contains(e.target)) {
-        cartPanel.classList.remove('active');
+        const name = signupForm.signupName.value;
+        const cep = signupForm.signupCep.value;
+        const address = signupForm.signupAddress.value;
+        const complement = signupForm.signupComplement.value;
+        const email = signupForm.signupEmail.value;
+        const password = signupForm.signupPassword.value;
+
+        if (!name || !cep || !address || !email || !password) {
+            signupError.textContent = 'Por favor, preencha todos os campos obrigatórios.';
+            return;
+        }
+
+        if (findUserByEmail(email)) {
+            signupError.textContent = 'Este email já está cadastrado.';
+            return;
+        }
+
+        saveUser(name, cep, address, complement, email, password);
+        signupForm.reset();
+        signupError.textContent = '';
+        signupSuccess.textContent = 'Cadastro realizado com sucesso! Você pode fazer login.';
+        showToast('Usuário cadastrado com sucesso!');
+        console.log('Showing toast and will redirect in 3 seconds');
+        setTimeout(() => {
+            console.log('Redirecting now');
+            window.location.assign('index.html'); // Redireciona para a página inicial após 3 segundos
+        }, 3000);
+    });
+}
+
+// Event listener para o formulário de login
+if (loginSubmit) { // Verifica se o elemento existe na página
+    loginSubmit.addEventListener('submit', (event) => {
+        event.preventDefault(); // Impede o envio padrão do formulário
+
+        const email = loginForm.loginEmail.value;
+        const password = loginForm.loginPassword.value;
+        const storedUser = findUserByEmail(email);
+
+        if (storedUser && storedUser.password === password) {
+            // Login bem-sucedido!
+            localStorage.setItem('loggedInUserEmail', email); // Armazena o email do usuário logado
+            window.location.href = 'index.html'; // Redireciona para a página inicial
+        } else {
+            loginError.textContent = 'Essa conta não existe ou as informações estão incorretas.';
+        }
+    });
+}
+
+// Verifica se já existe um usuário logado ao carregar a página (em qualquer página)
+if (localStorage.getItem('loggedInUserEmail') && !window.location.pathname.includes('login.html') && !window.location.pathname.includes('cadastro.html')) {
+    // Se estiver logado e não estiver na página de login ou cadastro,
+    // você pode fazer algo aqui, como exibir informações do usuário.
+    console.log('Usuário logado:', localStorage.getItem('loggedInUserEmail'));
+}
+
+// Pop-up de Login/Cadastro
+const loginPopup = document.getElementById('login-popup');
+
+function closeLoginPopup() {
+    if (loginPopup) {
+        loginPopup.style.display = 'none';
+    }
+}
+
+function openSignupPage() {
+    window.location.href = 'login.html'; // Redireciona para a página de login (onde o cadastro está)
+}
+
+// Adicione este event listener para fechar o pop-up ao clicar fora dele
+window.addEventListener('click', function(event) {
+    if (loginPopup && event.target == loginPopup) {
+        closeLoginPopup();
     }
 });
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.querySelector('.search-bar input[type="text"]');
-    const productCards = document.querySelectorAll('.product-card');
-
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-
-        productCards.forEach(card => {
-            const productName = card.querySelector('h3').textContent.toLowerCase();
-            const productDescription = card.querySelector('.description').textContent.toLowerCase();
-
-            if (productName.includes(searchTerm) || productDescription.includes(searchTerm)) {
-                card.style.display = 'block'; // Mostra o produto
-            } else {
-                card.style.display = 'none';  // Oculta o produto
-            }
-        });
-    });
-});
-// ... (seu código JavaScript restante)
