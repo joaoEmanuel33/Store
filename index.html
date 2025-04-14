@@ -1,126 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>San Carlo</title>
-    <link rel="icon" href="assets/logo.webp" type="image/x-icon">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="icon" href="assets/logo.webp" type="image/x-icon" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <script src="js/bootstrap.min.js"></script>
 </head>
 <body class="Body">
     <header>
-
-        <div class="logo">
-            <img src="assets/logo.webp" alt="Logo San Carlo">
-        </div>
-        <nav class="menu">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="index.html">Produtos</a></li>
-                <li><a href="sobre.html">Sobre</a></li>
-                <li><a href="contato.html">Contato</a></li>
-            </ul>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center" href="index.html">
+                    <img src="assets/logo.webp" alt="Logo San Carlo" width="40" height="40" class="d-inline-block align-text-top" />
+                    <span class="ms-2">San Carlo</span>
+                </a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Produtos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="sobre.html">Sobre</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contato.html">Contato</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex me-3" role="search" onsubmit="return false;">
+                        <input
+                            class="form-control me-2"
+                            type="search"
+                            placeholder="Buscar produtos..."
+                            aria-label="Search"
+                        />
+                        <button class="btn btn-outline-success" type="submit">Buscar</button>
+                    </form>
+                    <div class="d-flex align-items-center">
+                        <div class="cart-icon position-relative" onclick="toggleCart()" style="cursor:pointer;">
+                            <img src="assets/shopping-cart.png" alt="Carrinho" width="30" height="30" />
+                            <span
+                                id="cart-count"
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                >0</span
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
         </nav>
-        <div class="search-bar">
-            <input type="text" placeholder="Buscar produtos...">
-            <button type="submit">Buscar</button>
-        </div>
-        <div class="cart-icon" onclick="toggleCart()">
-            <img src="assets/shopping-cart.png" alt="">
-            <i class="fa fa-shopping-cart"></i>
-            <span id="cart-count">0</span>
-        </div>
     </header>
     <main>
         <section class="products" id="produtos">
             <div class="product-card">
-                <img src="assets/burrata.jpg" alt="">
+                <img src="assets/burrata.jpg" alt="" />
                 <h3>Burrata</h3>
                 <p class="price">R$ 69,00</p>
-                <p class="description">Molho, linguiça de pernil, tomate cereja, pesto, nozes e burrata fresca</p>
-                <button class="btn btn-danger" onclick="openModal(1, 'Burrata', 69.00, 'Molho, linguiça de pernil, tomate cereja, pesto, nozes e burrata fresca', 'assets/burrata.jpg')">Comprar</button>
+                <p class="description">
+                    Molho, linguiça de pernil, tomate cereja, pesto, nozes e burrata fresca
+                </p>
+                <button
+                    class="btn btn-danger"
+                    onclick="openModal(1, 'Burrata', 69.00, 'Molho, linguiça de pernil, tomate cereja, pesto, nozes e burrata fresca', 'assets/burrata.jpg')"
+                >
+                    Comprar
+                </button>
             </div>
             <div class="product-card">
-                <img src="assets/quatro-formaggi.jpg" alt="">
+                <img src="assets/quatro-formaggi.jpg" alt="" />
                 <h3>Quatro Formaggi</h3>
                 <p class="price">R$ 52,00</p>
-                <p class="description">Molho, mozzarella de bufala, queijo brie, queijo gorgonzola e parmesão.</p>
-                <button class="btn btn-danger" onclick="openModal(2, 'Pizza Quatro Formaggi', 52.00, 'Molho, mozzarella de bufala, queijo brie, queijo gorgonzola e parmesão.', 'assets/quatro-formaggi.jpg')">Comprar</button>
+                <p class="description">
+                    Molho, mozzarella de bufala, queijo brie, queijo gorgonzola e parmesão.
+                </p>
+                <button
+                    class="btn btn-danger"
+                    onclick="openModal(2, 'Pizza Quatro Formaggi', 52.00, 'Molho, mozzarella de bufala, queijo brie, queijo gorgonzola e parmesão.', 'assets/quatro-formaggi.jpg')"
+                >
+                    Comprar
+                </button>
             </div>
             <div class="product-card">
-                <img src="assets/carbonara.jpg" alt="">
+                <img src="assets/carbonara.jpg" alt="" />
                 <h3>Carbonara Romana</h3>
                 <p class="price">R$ 57,00</p>
-                <p class="description">Molho, mozzarella de bufala, panceta, ovo, pimenta do reino e queijo pecorino romano</p>
-                <button class="btn btn-danger" onclick="openModal(3, 'Carbonara Romana', 57.00, 'Molho, mozzarella de bufala, panceta, ovo, pimenta do reino e queijo pecorino romano', 'assets/carbonara.jpg')">Comprar</button>
+                <p class="description">
+                    Molho, mozzarella de bufala, panceta, ovo, pimenta do reino e queijo pecorino romano
+                </p>
+                <button
+                    class="btn btn-danger"
+                    onclick="openModal(3, 'Carbonara Romana', 57.00, 'Molho, mozzarella de bufala, panceta, ovo, pimenta do reino e queijo pecorino romano', 'assets/carbonara.jpg')"
+                >
+                    Comprar
+                </button>
             </div>
             <div class="product-card">
-                <img src="assets/linguica.jpg" alt="">
+                <img src="assets/linguica.jpg" alt="" />
                 <h3>Vesuvio</h3>
                 <p class="price">R$ 54,00</p>
-                <p class="description">Molho , mozzarela de bufala, calabresa, cogumelo portobello, cebola roxa, pimenta jalapeno e parmesão</p>
-                <button class="btn btn-danger" onclick="openModal(4, 'Vesuvio', 54.00, 'Molho, mozzarela de bufala, calabresa, cogumelo portobello, cebola roxa, pimenta jalapeno e parmesão', 'assets/linguica.jpg')">Comprar</button>
+                <p class="description">
+                    Molho , mozzarela de bufala, calabresa, cogumelo portobello, cebola roxa, pimenta jalapeno e parmesão
+                </p>
+                <button
+                    class="btn btn-danger"
+                    onclick="openModal(4, 'Vesuvio', 54.00, 'Molho, mozzarela de bufala, calabresa, cogumelo portobello, cebola roxa, pimenta jalapeno e parmesão', 'assets/linguica.jpg')"
+                >
+                    Comprar
+                </button>
             </div>
             <div class="product-card">
-                <img src="assets/pizzadacasa.jpg" alt="">
+                <img src="assets/pizzadacasa.jpg" alt="" />
                 <h3>San Carlo</h3>
                 <p class="price">R$ 57,00</p>
-                <p class="description">Molho, mozzarella de búfala, filé mignon, queijo brie, parmesão e geleia de pimenta</p>
-                <button class="btn btn-danger" onclick="openModal(5, 'San Carlo', 57.00, 'Molho, mozzarella de búfala, filé mignon, queijo brie, parmesão e geleia de pimenta', 'assets/pizzadacasa.jpg')">Comprar</button>
+                <p class="description">
+                    Molho, mozzarella de búfala, filé mignon, queijo brie, parmesão e geleia de pimenta
+                </p>
+                <button
+                    class="btn btn-danger"
+                    onclick="openModal(5, 'San Carlo', 57.00, 'Molho, mozzarella de búfala, filé mignon, queijo brie, parmesão e geleia de pimenta', 'assets/pizzadacasa.jpg')"
+                >
+                    Comprar
+                </button>
             </div>
             <div class="product-card">
-                <img src="assets/capodimonte.jpg" alt="">
+                <img src="assets/capodimonte.jpg" alt="" />
                 <h3>Capodimonte</h3>
                 <p class="price">R$ 46,00</p>
-                <p class="description">Molho, mozzarela de búfala, cogumelos portobello salteados na manteiga e parmesão.</p>
-                <button class="btn btn-danger" onclick="openModal(6, 'capodimonte', 46.00, 'Molho, mozzarela de búfala, cogumelos portobello salteados na manteiga e parmesão.', 'assets/capodimonte.jpg')">Comprar</button>
+                <p class="description">
+                    Molho, mozzarela de búfala, cogumelos portobello salteados na manteiga e parmesão.
+                </p>
+                <button
+                    class="btn btn-danger"
+                    onclick="openModal(6, 'capodimonte', 46.00, 'Molho, mozzarela de búfala, cogumelos portobello salteados na manteiga e parmesão.', 'assets/capodimonte.jpg')"
+                >
+                    Comprar
+                </button>
             </div>
             <div class="product-card">
-                <img src="assets/marinara.jpg" alt="">
+                <img src="assets/marinara.jpg" alt="" />
                 <h3>Marinara</h3>
                 <p class="price">R$ 34,00</p>
-                <p class="description">Molho, laminas de alho fresco, orégano fresco e azeite de oliva</p>
-                <button class="btn btn-danger" onclick="openModal(7, 'Marinara', 34.00, 'Molho, laminas de alho fresco, orégano fresco e azeite de oliva', 'assets/marinara.jpg')">Comprar</button>
+                <p class="description">
+                    Molho, laminas de alho fresco, orégano fresco e azeite de oliva
+                </p>
+                <button
+                    class="btn btn-danger"
+                    onclick="openModal(7, 'Marinara', 34.00, 'Molho, laminas de alho fresco, orégano fresco e azeite de oliva', 'assets/marinara.jpg')"
+                >
+                    Comprar
+                </button>
             </div>
             <div class="product-card">
-                <img src="assets/donnaregina.jpg" alt="">
+                <img src="assets/donnaregina.jpg" alt="" />
                 <h3>Donnaregina</h3>
                 <p class="price">R$ 61,00</p>
-                <p class="description">Molho, mozzarela de bufala, presunto parma, burrata picada, castanha e pesto</p>
-                <button class="btn btn-danger" onclick="openModal(8, 'Donnaregina', 61.00, 'Molho, mozzarela de bufala, presunto parma, burrata picada, castanha e pesto', 'assets/donnaregina.jpg')">Comprar</button>
+                <p class="description">
+                    Molho, mozzarela de bufala, presunto parma, burrata picada, castanha e pesto
+                </p>
+                <button
+                    class="btn btn-danger"
+                    onclick="openModal(8, 'Donnaregina', 61.00, 'Molho, mozzarela de bufala, presunto parma, burrata picada, castanha e pesto', 'assets/donnaregina.jpg')"
+                >
+                    Comprar
+                </button>
             </div>
             <div class="product-card">
-                <img src="assets/orapois.jpg" alt="">
+                <img src="assets/orapois.jpg" alt="" />
                 <h3>Orapois</h3>
                 <p class="price">R$ 48,00</p>
-                <p class="description">Molho, mozzarella de búfala, presunto, cebola roxa, azeitona preta, ovo e parmesão</p>
-                <button class="btn btn-danger" onclick="openModal(9, 'Orapois', 48.00, 'Molho, mozzarella de búfala, presunto, cebola roxa, azeitona preta, ovo e parmesão', 'assets/orapois.jpg')">Comprar</button>
+                <p class="description">
+                    Molho, mozzarella de búfala, presunto, cebola roxa, azeitona preta, ovo e parmesão
+                </p>
+                <button
+                    class="btn btn-danger"
+                    onclick="openModal(9, 'Orapois', 48.00, 'Molho, mozzarella de búfala, presunto, cebola roxa, azeitona preta, ovo e parmesão', 'assets/orapois.jpg')"
+                >
+                    Comprar
+                </button>
             </div>
             <div class="product-card">
-                <img src="assets/calabrese.jpg" alt="">
+                <img src="assets/calabrese.jpg" alt="" />
                 <h3>Calabrese</h3>
                 <p class="price">R$ 45,00</p>
-                <p class="description">Molho, mozzarella de búfala, calabresa, cebola roxa e parmesão</p>
-                <button class="btn btn-danger" onclick="openModal(10, 'Calabrese', 45.00, 'Molho, mozzarella de búfala, calabresa, cebola roxa e parmesão', 'assets/calabrese.jpg')">Comprar</button>
+                <p class="description">
+                    Molho, mozzarella de búfala, calabresa, cebola roxa e parmesão
+                </p>
+                <button
+                    class="btn btn-danger"
+                    onclick="openModal(10, 'Calabrese', 45.00, 'Molho, mozzarella de búfala, calabresa, cebola roxa e parmesão', 'assets/calabrese.jpg')"
+                >
+                    Comprar
+                </button>
             </div>
         </section>
         <div id="quantity-modal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
                 <div class="modal-product-details">
-                    <img id="modal-product-image" src="" alt="Produto" class="modal-product-image">
+                    <img id="modal-product-image" src="" alt="Produto" class="modal-product-image" />
                     <div class="modal-product-info">
                         <h2 id="modal-product-name">Nome do Produto</h2>
                         <p id="modal-product-description">Descrição do Produto</p>
-                        <p class="price">R$ <span id="modal-product-price">0,00</span></p>
+                        <p class="price">
+                            R$ <span id="modal-product-price">0,00</span>
+                        </p>
                     </div>
                 </div>
                 <h3>Selecione a Quantidade</h3>
                 <div class="quantity-selector">
                     <button onclick="decrementQuantity()">-</button>
-                    <input type="number" id="quantity" value="1" min="1" max="10">
+                    <input type="number" id="quantity" value="1" min="1" max="10" />
                     <button onclick="incrementQuantity()">+</button>
                 </div>
                 <button onclick="addToCart()">Confirmar</button>
@@ -157,8 +262,10 @@
             </div>
         </div>
     </main>
-    <footer id="sobre">
-        <p>&copy; 2025 San Carlo. Todos os direitos reservados.</p>
+    <footer class="bg-light text-center text-lg-start py-3 mt-4">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 San Carlo. Todos os direitos reservados.</p>
+        </div>
     </footer>
     <script src="js/script.js"></script>
 </body>
