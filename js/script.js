@@ -43,23 +43,6 @@ function decrementQuantity() {
 }
 
 // Funções do Carrinho
-function handleSearch() {
-    const searchInput = document.querySelector('.search-bar input');
-    const filter = searchInput.value.toLowerCase();
-    const productCards = document.querySelectorAll('.product-card');
-
-    productCards.forEach(card => {
-        const productName = card.querySelector('h3').textContent.toLowerCase();
-        if (productName.includes(filter)) {
-            card.style.display = 'block'; // Show matching product
-        } else {
-            card.style.display = 'none'; // Hide non-matching product
-        }
-    });
-}
-
-document.querySelector('.search-bar button').addEventListener('click', handleSearch);
-
 function addToCart() {
     // Capturar os dados do modal
     const productName = document.getElementById('modal-product-name').textContent;
@@ -69,46 +52,6 @@ function addToCart() {
 
     // Verificar se o produto já está no carrinho
     const existingProduct = cart.find(item => item.name === productName);
-
-    if (existingProduct) {
-        // Atualizar a quantidade se o produto já estiver no carrinho
-        existingProduct.quantity += productQuantity;
-    } else {
-        // Adicionar novo produto ao carrinho
-        cart.push({
-            name: productName,
-            price: productPrice,
-            quantity: productQuantity,
-            image: productImage
-        });
-    }
-
-    // Aplicar desconto de 10% para a primeira compra
-    const isFirstPurchase = !localStorage.getItem('hasPurchased');
-    if (isFirstPurchase) {
-        productPrice *= 0.9; // Aplica 10% de desconto
-        localStorage.setItem('hasPurchased', 'true'); // Marca que o usuário já fez uma compra
-    }
-
-    // Atualizar o contador do carrinho
-    updateCartCount();
-
-    // Atualizar o carrinho na interface
-    updateCartUI();
-
-    // Fechar o modal de quantidade
-    closeModal();
-
-    // Abrir o carrinho
-    toggleCart();
-    // Capturar os dados do modal
-    productName = document.getElementById('modal-product-name').textContent;
-    productPrice = parseFloat(document.getElementById('modal-product-price').textContent.replace(',', '.'));
-    productQuantity = parseInt(document.getElementById('quantity').value, 10);
-    productImage = document.getElementById('modal-product-image').src;
-
-    // Verificar se o produto já está no carrinho
-    existingProduct = cart.find(item => item.name === productName);
 
     if (existingProduct) {
         // Atualizar a quantidade se o produto já estiver no carrinho
@@ -213,6 +156,109 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCartDisplay();
 });
 
+function updateCartUI() {
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartTotalElement = document.getElementById('cart-total');
+
+    // Limpar o conteúdo atual do carrinho
+    cartItemsContainer.innerHTML = '';
+
+    // Atualizar os itens do carrinho
+    let total = 0;
+    cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+
+        const cartItem = document.createElement('div');
+        cartItem.classList.add('cart-item');
+        cartItem.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+            <div class="cart-item-details">
+                <h4>${item.name}</h4>
+                <p>Quantidade: ${item.quantity}</p>
+                <p>Preço: R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}</p>
+            </div>
+        `;
+        cartItemsContainer.appendChild(cartItem);
+    });
+
+    // Atualizar o total do carrinho
+    cartTotalElement.textContent = total.toFixed(2).replace('.', ',');
+}
+
+function closeCart() {
+    const cartPanel = document.getElementById('shopping-cart');
+    cartPanel.classList.remove('active'); // Removido display: none
+}
+
+function openPaymentModal() {
+    const paymentModal = document.getElementById('payment-modal');
+    const paymentItemsContainer = document.getElementById('payment-items');
+    const paymentTotalElement = document.getElementById('payment-total');
+
+    // Limpar o conteúdo atual do modal de pagamento
+    paymentItemsContainer.innerHTML = '';
+
+    // Adicionar os itens do carrinho ao modal de pagamento
+    let total = 0;
+    cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+
+        const paymentItem = document.createElement('div');
+        paymentItem.classList.add('payment-item');
+        paymentItem.innerHTML = `
+            <div class="payment-item-details">
+                <img src="${item.image}" alt="${item.name}" class="payment-item-image">
+                <div>
+                    <h4>${item.name}</h4>
+                    <p>Quantidade: ${item.quantity}</p>
+                    <p>Preço unitário: R$ ${item.price.toFixed(2).replace('.', ',')}</p>
+                    <p>Subtotal: R$ ${itemTotal.toFixed(2).replace('.', ',')}</p>
+                </div>
+            </div>
+        `;
+        paymentItemsContainer.appendChild(paymentItem);
+    });
+
+    // Atualizar o total no modal de pagamento
+    paymentTotalElement.textContent = total.toFixed(2).replace('.', ',');
+
+    // Exibir o modal de pagamento
+    paymentModal.style.display = 'block';
+}
+
+function closePaymentModal() {
+    const paymentModal = document.getElementById('payment-modal');
+    paymentModal.style.display = 'none';
+}
+
+function proceedToPayment() {
+    showToast('Redirecionando para a página de pagamento...');
+    // Aqui você pode redirecionar para uma página de pagamento real
+    closePaymentModal();
+}
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = 'toast show';
+
+    // Remover o toast após 3 segundos
+    setTimeout(() => {
+        toast.className = 'toast';
+    }, 3000);
+}
+
+// Seção de Login e Cadastro
+const loginForm = document.getElementById('loginForm');
+const signupForm = document.getElementById('signupForm');
+const loginSubmit = document.getElementById('loginForm');
+const signupSubmit = document.getElementById('signupForm');
+const loginError = document.getElementById('loginError');
+const signupSuccess = document.getElementById('signupSuccess');
+const signupError = document.getElementById('signupError');
+
 // Função para salvar dados do usuário no localStorage
 function saveUser(name, cep, address, complement, email, password, profilePhoto) {
     const users = JSON.parse(localStorage.getItem('users')) || [];
@@ -222,6 +268,17 @@ function saveUser(name, cep, address, complement, email, password, profilePhoto)
     console.log('Usuário cadastrado:', newUser); // Para depuração
 }
 
+// Função para atualizar dados do usuário no localStorage
+function updateUser(email, updatedData) {
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const userIndex = users.findIndex(user => user.email === email);
+    if (userIndex !== -1) {
+        users[userIndex] = { ...users[userIndex], ...updatedData };
+        localStorage.setItem('users', JSON.stringify(users));
+        console.log('Usuário atualizado:', users[userIndex]);
+    }
+}
+
 // Função para verificar se um usuário existe no localStorage pelo email
 function findUserByEmail(email) {
     const users = JSON.parse(localStorage.getItem('users')) || [];
@@ -229,12 +286,8 @@ function findUserByEmail(email) {
 }
 
 // Event listener para o formulário de cadastro
-const signupForm = document.getElementById('signupForm');
-const signupSuccess = document.getElementById('signupSuccess');
-const signupError = document.getElementById('signupError');
-
-if (signupForm) { // Verifica se o elemento existe na página
-    signupForm.addEventListener('submit', (event) => {
+if (signupSubmit) { // Verifica se o elemento existe na página
+    signupSubmit.addEventListener('submit', (event) => {
         event.preventDefault(); // Impede o envio padrão do formulário
         console.log('Signup form submitted');
 
@@ -270,10 +323,6 @@ if (signupForm) { // Verifica se o elemento existe na página
 }
 
 // Event listener para o formulário de login
-const loginForm = document.getElementById('loginForm');
-const loginSubmit = document.getElementById('loginForm');
-const loginError = document.getElementById('loginError');
-
 if (loginSubmit) { // Verifica se o elemento existe na página
     loginSubmit.addEventListener('submit', (event) => {
         event.preventDefault(); // Impede o envio padrão do formulário
@@ -443,3 +492,26 @@ if (profileForm) {
 document.addEventListener('DOMContentLoaded', () => {
     loadUserProfile();
 });
+
+// Função para alternar a exibição do dropdown do usuário
+function toggleUserDropdown() {
+    const dropdown = document.getElementById('user-dropdown');
+    if (dropdown) {
+        if (dropdown.style.display === 'block') {
+            dropdown.style.display = 'none';
+        } else {
+            dropdown.style.display = 'block';
+        }
+    }
+}
+
+// Função para deslogar o usuário
+function logout() {
+    localStorage.removeItem('loggedInUserEmail');
+    window.location.href = 'login.html';
+}
+
+// Função para editar a conta do usuário
+function editAccount() {
+    window.location.href = 'cadastro.html';
+}
